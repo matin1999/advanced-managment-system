@@ -1,1 +1,1 @@
-# advanced-managment-syststem
+# advanced-managment-system

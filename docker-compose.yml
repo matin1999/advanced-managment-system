@@ -1,0 +1,18 @@
+version: '3.4'
+services:
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+        MYSQL_DATABASE: task-manger
+        MYSQL_ROOT_PASSWORD: test-password
+  task-manager:
+    build:
+      context: .
+    container_name: task-manger
+    restart: always
+    ports:
+      - "1215:1215"

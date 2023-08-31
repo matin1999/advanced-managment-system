@@ -19,11 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//authentication
-Route::prefix('/auth')->namespace('Api')->group(function () {
-    Route::post('/auth/register', [AuthController::class, 'register']);
-    Route::post('/auth/login', [AuthController::class, 'login']);
-});
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
 

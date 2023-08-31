@@ -16,8 +16,10 @@ use App\Http\Controllers\Api\AuthController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 Route::prefix('/auth')->namespace('Api')->group(function () {
-    Route::get('/auth/view-register', [AuthController::class, 'registerView'])->name('register');
-    Route::get('/auth/view-login', [AuthController::class, 'loginView'])->name('login');
+    Route::post('/register', [AuthController::class, 'register'])->name('registerUser');
+    Route::post('/login', [AuthController::class, 'login'])->name('loginUser');
+    Route::get('/view-register', [AuthController::class, 'registerView'])->name('register');
+    Route::get('/view-login', [AuthController::class, 'loginView'])->name('login');
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
 
 class AuthController extends Controller
@@ -19,7 +20,7 @@ class AuthController extends Controller
     /**
      * Create User
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function register(Request $request)
     {
@@ -30,30 +31,20 @@ class AuthController extends Controller
                 'password' => 'required'
             ]);
         if ($validateUser->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => '',
-                'errors' => $validateUser->errors()
-            ], 401);
+            return redirect()->back()->with('errors' , $validateUser->errors());
         }
         $user = $this->userRepository->CreateUser([
-            'name' => $request->first_name,
+            'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => $request->password
         ]);
         if ($user) {
-            return response()->json([
-                'status' => true,
-                'message' => 'user registered',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
-            ]);
+            return redirect()->route('login')->with('status',true);
 
         } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'try again'
-            ], 500);
+            return redirect()->back()->with('errors','try again');
+
         }
 
     }
@@ -61,7 +52,6 @@ class AuthController extends Controller
     /**
      * Login The User
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
     {
@@ -72,27 +62,15 @@ class AuthController extends Controller
             ]);
 
         if ($validateUser->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'email and password are required',
-                'errors' => $validateUser->errors()
-            ], 401);
+            return redirect()->back('errors' , $validateUser->errors());
         }
 
         if (!Auth::attempt($request->only(['email', 'password']))) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Email & Password does not match with our record.',
-            ], 401);
+            return redirect()->back()->with('errors' , ['Email & Password does not match with our record.'],);
         }
-
-        $user = User::where('email', $request->email)->first();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'User Logged In Successfully',
-            'token' => $user->createToken("API TOKEN")->plainTextToken
-        ]);
+        if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route('admin.admin_dashboard');
+        }
 
     }
 

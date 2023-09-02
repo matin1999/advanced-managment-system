@@ -23,13 +23,11 @@
             {{ session('status') }}
         </div>
     @endif
-    @if ($errors->any())
         <ul class="mt-3 list-disc list-inside text-sm text-red-600" style="color: red">
-            @foreach ($errors->all() as $error)
+            @foreach ($errors as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
-    @endif
     <form action="{{route('loginUser')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row" style="text-align: center">

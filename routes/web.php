@@ -23,3 +23,7 @@ Route::prefix('/auth')->namespace('Api')->group(function () {
     Route::get('/view-register', [AuthController::class, 'registerView'])->name('register');
     Route::get('/view-login', [AuthController::class, 'loginView'])->name('login');
 });
+Route::prefix('/dashboard')->middleware('auth')->group( function () {
+    Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+});

@@ -23,10 +23,10 @@
 {{--            <a href="{{route('index_mission_type')}}"><i class='bi bi-ui-radios'></i><span>مدیریت انواع مأموریت ها</span>--}}
 {{--            </a>--}}
 {{--        </li>--}}
-        <li>
-            <a href="{{route('assets_search')}}"><i class="bi bi-search"></i><span>جست و جوی دارایی ها</span>
-            </a>
-        </li>
+{{--        <li>--}}
+{{--            <a href="{{route('assets_search')}}"><i class="bi bi-search"></i><span>جست و جوی دارایی ها</span>--}}
+{{--            </a>--}}
+{{--        </li>--}}
 {{--        <li>--}}
 {{--            <a href="{{route('index_user_action')}}"><i class="bi bi-cash-coin "></i><span>مدیریت گردش امتیازات</span>--}}
 {{--            </a>--}}

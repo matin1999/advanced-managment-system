@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticlesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 
@@ -26,4 +27,10 @@ Route::prefix('/auth')->namespace('Api')->group(function () {
 Route::prefix('/dashboard')->middleware('auth')->group( function () {
     Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
+});Route::prefix('/articles')->middleware('auth')->group( function () {
+    Route::get('/', [ArticlesController::class, 'index']);
+    Route::get('/{user_id}', [ArticlesController::class, 'userArticles']);
+    Route::post('/create', [ArticlesController::class, 'createArticle']);
+    Route::post('/{id}/delete', [ArticlesController::class, 'deleteArticle']);
+    Route::get('/{id}/update', [ArticlesController::class, 'updateArticle']);
 });

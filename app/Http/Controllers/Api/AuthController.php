@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\LoginRequest;
 use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,17 +24,8 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function register(Request $request)
+    public function register(CreateUserRequest $request)
     {
-        $validateUser = Validator::make($request->all(),
-            [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required'
-            ]);
-        if ($validateUser->fails()) {
-            return redirect()->back()->with('errors' , $validateUser->errors());
-        }
         $user = $this->userRepository->CreateUser([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -53,23 +46,14 @@ class AuthController extends Controller
      * Login The User
      * @param Request $request
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $validateUser = Validator::make($request->all(),
-            [
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
-
-        if ($validateUser->fails()) {
-            return redirect()->back('errors' , $validateUser->errors());
-        }
 
         if (!Auth::attempt($request->only(['email', 'password']))) {
             return redirect()->back()->with('errors' , ['Email & Password does not match with our record.'],);
         }
         if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->route('admin.admin_dashboard');
+            return redirect()->route('dashboard');
         }
 
     }

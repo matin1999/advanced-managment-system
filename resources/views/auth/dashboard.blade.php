@@ -16,7 +16,7 @@
        <h4> You are logged in successfully</h4>
 
     <div>
-        <a class="btn btn-primary" href="{{ route('doLogin')}}">Logout</a>
+        <a class="btn btn-primary" href="{{ route('loginUser')}}">Logout</a>
     </div>
     </body>
     </html>

@@ -27,11 +27,10 @@ RUN composer selfupdate
 COPY composer.json /app/
 
 RUN composer install --prefer-dist --no-scripts
-RUN ls
 
 COPY . /app
 
-
+RUN chmod +x entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]
 EXPOSE 587/tcp
 

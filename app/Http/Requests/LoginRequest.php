@@ -26,4 +26,12 @@ class LoginRequest extends FormRequest
             'password' => 'required'
         ];
     }
+    public function messages()
+    {
+        return [
+            'email.required' => 'please enter your email address',
+            'email.email' => 'invalid email address',
+            'password.required' => 'please enter your password',
+        ];
+    }
 }
